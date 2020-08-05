@@ -1,0 +1,19 @@
+$breakpoints: (
+    "phones": 576px,
+    "tablets": 768px,
+    "laptops": 1265px,
+    "desktops": 1920px,
+    "large": 2560px,
+    "four_k" : 3840px,
+);
+
+
+@mixin media-query($breakpoint, $min_or_max: "min"){
+    @each $name, $value in $breakpoints{
+        @if $name == $breakpoint {
+            @media only screen and (#{$min_or_max}-width: $value) {
+                @content;
+            }
+        }
+    }
+}

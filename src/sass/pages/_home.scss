@@ -1,0 +1,51 @@
+.time-date{
+    text-align: center;
+    &__time{
+        font-size: 7.2rem;
+    }
+    &__date{
+        font-size: 1.8rem;
+    }
+}
+
+.posts-grid{
+    display: grid;
+    grid-template: auto / repeat(3, 1fr);
+    grid-gap: $s6;
+}
+.dev-card{
+    padding: $s2 $s3;
+    color: $white-color;
+    border: 0.2rem $white-color solid;
+    border-radius: 1rem;
+    transition: 0.1s;
+    display: flex;
+    flex-direction: column;
+    &:hover{
+        color: white;
+        text-decoration: none;
+        transform: scale(1.05);
+        backface-visibility: hidden;
+    }
+    &__heading{
+        line-height: 1;
+        margin-bottom: $s4;
+        font-size: $h5;
+        font-weight: bold;
+        flex: 1;
+    }
+}
+
+.dev-posts-section{
+    &__heading{
+        margin: $s10 0 $s6 0;
+        position: relative;
+        &__text{
+            margin: 0;
+            position: absolute;
+            top: 42%;
+            left: 1.4em;
+            transform: translateY(-50%);
+        }
+    }
+}

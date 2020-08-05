@@ -1,0 +1,42 @@
+$icons: (
+    "dev" : '<svg xmlns="http://www.w3.org/2000/svg" width="82.714" height="82.714" viewBox="0 0 82.714 82.714"><path d="M22.178,64.548a3.585,3.585,0,0,0-2.151-.8h-3.22V83.033h3.222a3.585,3.585,0,0,0,2.151-.8,2.817,2.817,0,0,0,1.075-2.411V66.96a2.83,2.83,0,0,0-1.076-2.411ZM74.609,32H8.105A8.106,8.106,0,0,0,0,40.087v66.54a8.106,8.106,0,0,0,8.105,8.087h66.5a8.1,8.1,0,0,0,8.105-8.087V40.087A8.106,8.106,0,0,0,74.609,32ZM28.47,79.854c0,3.473-2.144,8.735-8.929,8.724H10.974V58.029h8.748c6.543,0,8.744,5.255,8.746,8.729ZM47.058,63.485H37.221v7.093h6.013v5.459H37.221v7.092H47.06v5.459H35.58a3.73,3.73,0,0,1-3.826-3.635v-23.1a3.733,3.733,0,0,1,3.639-3.82H47.06ZM66.193,84.771c-2.437,5.677-6.8,4.547-8.759,0L50.321,58.036h6.013l5.485,21,5.459-21h6.015Z" transform="translate(0 -32)" fill="%%COLOR%%"/></svg>',
+);
+
+$data-svg-prefix: 'data:image/svg+xml;utf-8,';
+
+@function str-replace( $string, $search, $replace ) {
+	$index: str-index( $string, $search );
+	@if $index {
+		@return str-slice( $string, 1, $index - 1 ) + $replace + str_replace( str-slice( $string, $index + str-length( $search ) ), $search, $replace );
+	}
+	@return $string;
+}
+
+@function get-icon( $icon, $color: #fff ) {
+	@if 'color' != type-of( $color ) {
+		@warn 'The requested color - "' + $color + '" - was not recognized as a Sass color value.';
+		@return null;
+	}
+	@if map-has-key( $icons, $icon ) {
+		$icon:        map-get( $icons, $icon );
+		$placeholder: '%%COLOR%%';
+		$data-uri:    str-replace( url( $data-svg-prefix + $icon ), $placeholder, $color );
+		@return str-replace( $data-uri, '#', '%23' );
+	}
+	@warn 'The requested icon - "' + $icon + '" - is not defined in the $icons map.';
+	@return null;
+}
+
+.icon{
+    height: 1em;
+	width: 1em;
+    background-size: contain;
+    background-position: bottom;
+    background-repeat: no-repeat;
+    display: inline-block;
+    @each $name, $value in $icons{
+        &--#{$name}{
+            background-image: get-icon($name);
+		}
+    }
+}
